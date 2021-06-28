@@ -12,6 +12,16 @@ const UrlList = ({urlList,
   search,
   onSearchChange}) => {
 
+  const paginationButtons = []
+
+  for (let i of [...Array(urlList.totalPages).keys()]) {
+    paginationButtons.push(
+      <li className={`page-item ${i===urlList.pageable.pageNumber ? 'active' : ''}`}>
+        <span className="page-link">{i+1}</span>
+      </li>
+    )
+  }
+
   return (
     <div>
       <h1>Manage Short URL</h1>
@@ -77,7 +87,7 @@ const UrlList = ({urlList,
         </thead>
         <tbody>
           {
-            (urlList.content.length > 0) ?
+            (!urlList.empty) ?
             urlList.content
               .map(urlItem => (
                 <tr key={urlItem.alias}>
@@ -100,15 +110,13 @@ const UrlList = ({urlList,
       {/* Pagination */}
       <div className="row">
         <div className="col-md">
-          <small>Showing 1 to 10 of 34 entries</small>
+          <small>Showing {urlList.pageable.offset + 1} to {urlList.pageable.offset + urlList.numberOfElements} of {urlList.totalElements} entries</small>
         </div>
         <div className="col-md">
-          <ul class="pagination pagination-sm justify-content-end">
-            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          <ul className="pagination pagination-sm justify-content-end">
+            <li className={`page-item ${urlList.first ? 'disabled' : ''}`}><span className="page-link">Previous</span></li>
+            {paginationButtons}
+            <li className={`page-item ${urlList.last ? 'disabled' : ''}`}><span className="page-link" href="#">Next</span></li>
           </ul>
         </div>
       </div>
