@@ -8,7 +8,9 @@ const UrlList = ({urlList,
   size,
   onSizeChange,
   page,
-  onPageChange,}) => {
+  onPageChange,
+  search,
+  onSearchChange}) => {
 
   return (
     <div>
@@ -37,7 +39,10 @@ const UrlList = ({urlList,
         <div className="col-md">
           <label className="d-flex align-items-center justify-content-end">
             Search:
-            <input type="search" className="form-control form-control-sm w-auto mx-2"></input>
+            <input type="search" className="form-control form-control-sm w-auto mx-2"
+              onChange={(event) => onSearchChange(event.target.value)}
+              value={search}
+            ></input>
             Sort By:
             <select className="form-select form-select-sm w-auto ms-2"
               onChange={(event) => onSortByChange(event.target.value)}
@@ -70,6 +75,7 @@ const UrlList = ({urlList,
         </thead>
         <tbody>
           {
+            (urlList.content.length > 0) ?
             urlList.content
               .map(urlItem => (
                 <tr key={urlItem.alias}>
@@ -80,6 +86,10 @@ const UrlList = ({urlList,
                   <td><button type="button" className="btn-close" aria-label="Close"></button></td>
                 </tr>
               ))
+            :
+            <tr>
+              <td colSpan="5">No data</td>
+            </tr>
           }          
         </tbody>
         </table>

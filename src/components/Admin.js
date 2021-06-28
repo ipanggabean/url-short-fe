@@ -10,7 +10,7 @@ const Admin = () => {
   let [urlList, setUrlList] = useState(null)
   let [errorMessage, setErrorMessage] = useState(null)
 
-  let [query, setQuery] = useState("")
+  let [search, setSearch] = useState("")
   let [sortBy, setSortBy] = useState("expiredTime")
   let [orderBy, setOrderBy] = useState("desc")
   let [size, setSize] = useState(5)
@@ -31,7 +31,9 @@ const Admin = () => {
   }, [])
 
   function fetchData() {
-    fetch(`http://localhost:8080/api/admin?page=${page}&size=${size}&sort=${sortBy},${orderBy}`, {
+    var searchQuery = (search.length > 0) ? "&search="+search : ""
+
+    fetch(`http://localhost:8080/api/admin?page=${page}&size=${size}&sort=${sortBy},${orderBy}${searchQuery}`, {
       headers: new Headers({
         'Authorization': 'Bearer ' + sessionToken
       })
@@ -55,7 +57,7 @@ const Admin = () => {
     if (sessionToken) {
       return fetchData()
     }
-  },[sessionToken, sortBy, orderBy, size])
+  },[sessionToken, sortBy, orderBy, size, search])
 
   return (
     <AppContext.Provider value={{ sessionToken, setSessionToken }}>
@@ -79,6 +81,8 @@ const Admin = () => {
             onSizeChange={size => setSize(size)}
             page={page}
             onPageChange={page => setPage(page)}
+            search={search}
+            onSearchChange={search => setSearch(search)}
           />
         ) : (
           <Login />
