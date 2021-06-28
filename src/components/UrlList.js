@@ -62,6 +62,8 @@ const UrlList = ({urlList,
           </label>
         </div>
       </div>
+
+      {/* List table */}
       <div className="table-responsive">
         <table className="table table-striped table-sm">
         <thead className="table-light">
@@ -93,6 +95,22 @@ const UrlList = ({urlList,
           }          
         </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="row">
+        <div className="col-md">
+          <small>Showing 1 to 10 of 34 entries</small>
+        </div>
+        <div className="col-md">
+          <ul class="pagination pagination-sm justify-content-end">
+            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </div>
       </div>
     </div>
   )
