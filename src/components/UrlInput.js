@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const UrlInput = ({onCreateShort}) => {
+const UrlInput = ({onCreateShort, expiredTime, onExpiredTimeChange}) => {
   let [originalLink, setOriginalLink] = useState("")
 
   function processCreateShort() {
@@ -15,6 +15,10 @@ const UrlInput = ({onCreateShort}) => {
         onChange={(event) => setOriginalLink(event.target.value)}
         value={originalLink}
         className="form-control" type="text" name="url_source" id="url_source" placeholder="URL to shorten here"></input>
+      <input className="form-control" type="datetime-local" name="url_source" id="url_source" placeholder="Expire time"
+        onChange={(event) => onExpiredTimeChange(event.target.value)}
+        value={expiredTime}
+      ></input>
       <button type="button" 
         onClick={processCreateShort}
         className="btn btn-primary">Shorten URL

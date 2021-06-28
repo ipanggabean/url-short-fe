@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UrlInput from './UrlInput';
 
 const Home = () => {
@@ -6,6 +6,7 @@ const Home = () => {
   let [originalLink, setOriginalLink] = useState("")
   let [shortenLink, setShortenLink] = useState("")
   let [errorMessage, setErrorMessage] = useState("")
+  let [expiredTime, setExpiredTime] = useState(null)
 
   function processShortLink(url) {
     setOriginalLink(url)
@@ -13,7 +14,7 @@ const Home = () => {
     fetch('http://localhost:8080/api/short', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: url })
+      body: JSON.stringify({ url: url, expired_time: expiredTime })
     })
       .then(response => {
         if (!response.ok) {
@@ -31,12 +32,23 @@ const Home = () => {
       });
   }
 
+  useEffect(() => {
+    var date = new Date();
+    date.setDate(date.getDate() + 1);
+    setExpiredTime(date)
+    return null
+  }, []);
+
   return (
-    <div className="col-md-10 mx-auto col-lg-5">
+    <div className="col-md-10 mx-auto col-lg-8">
       <h1 className="text-center">URL Shortener</h1>
       
       <div className="p-5 border rounded-3 bg-light row">
-        <UrlInput onCreateShort={url => processShortLink(url)}/>
+        <UrlInput 
+          onCreateShort={url => processShortLink(url)}
+          expiredTime={expiredTime}
+          onExpiredTimeChange={(time) => setExpiredTime(time)}
+        />
 
         { shortenLink &&
           <div>
