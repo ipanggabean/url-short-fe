@@ -16,8 +16,10 @@ const UrlList = ({urlList,
 
   for (let i of [...Array(urlList.totalPages).keys()]) {
     paginationButtons.push(
-      <li className={`page-item ${i===urlList.pageable.pageNumber ? 'active' : ''}`}>
-        <span className="page-link">{i+1}</span>
+      <li id={i} className={`page-item ${i===urlList.pageable.pageNumber ? 'active' : ''}`}>
+        <a className="page-link" href="#"
+          onClick={() => onPageChange(i)}
+        >{i+1}</a>
       </li>
     )
   }
@@ -95,7 +97,7 @@ const UrlList = ({urlList,
                   <td>{urlItem.url}</td>
                   <td>{urlItem.hit}</td>
                   <td>{new Date(urlItem.expired_time).toLocaleString()}</td>
-                  <td><button type="button" className="btn-close" aria-label="Close"></button></td>
+                  <td className="text-end"><button type="button" className="btn-close" aria-label="Close"></button></td>
                 </tr>
               ))
             :

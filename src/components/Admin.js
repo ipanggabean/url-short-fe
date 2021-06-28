@@ -57,7 +57,7 @@ const Admin = () => {
     if (sessionToken) {
       return fetchData()
     }
-  },[sessionToken, sortBy, orderBy, size, search])
+  },[sessionToken, sortBy, orderBy, size, search, page])
 
   return (
     <AppContext.Provider value={{ sessionToken, setSessionToken }}>
