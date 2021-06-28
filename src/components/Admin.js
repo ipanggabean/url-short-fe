@@ -12,7 +12,7 @@ const Admin = () => {
     <AppContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
       <Login />
       { isAuthenticated &&
-        <UrlList />
+        <UrlList urlList={urlList}/>
       }
     </AppContext.Provider>
   )
