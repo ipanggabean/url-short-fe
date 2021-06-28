@@ -10,7 +10,7 @@ const Login = () => {
   let [errorMessage, setErrorMessage] = useState("")
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const { isAuthenticated, setIsAuthenticated } = useAppContext();
+  const { sessionToken, setSessionToken } = useAppContext();
 
   function processAuthentication() {
     const requestOptions = {
@@ -26,15 +26,17 @@ const Login = () => {
         return response.json()
       })
       .then(data => data.jwttoken)
-      .then(token => sessionStorage.setItem("jwttoken", token))
-      .then(() => setIsAuthenticated(true))
+      .then(token => { 
+        sessionStorage.setItem("jwttoken", token)
+        setSessionToken(token)
+      })
       .catch(error => {
         setErrorMessage(error.toString())
         console.error('There was an error!', error);
       });
   }
 
-  if (isAuthenticated) {
+  if (sessionToken) {
     return null
   }
 

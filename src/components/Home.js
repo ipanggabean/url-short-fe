@@ -40,7 +40,7 @@ const Home = () => {
         }
         
         { errorMessage &&
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <div className="alert alert-danger alert-dismissible fade show" role="alert">
             Uh ooh! Error: {errorMessage}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
               onClick={() => setErrorMessage("")}

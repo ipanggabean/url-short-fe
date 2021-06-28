@@ -1,41 +1,62 @@
-const UrlList = ({urlList}) => {
+import { useEffect, useState } from "react"
 
-  urlList = [
-    {
-      "alias": "b986d994",
-      "url": "https://one.com/",
-      "expired_time": "2022-06-23T15:38:37",
-      "hit": 0
-    },
-    {
-        "alias": "0669d834",
-        "url": "https://two.com/",
-        "expired_time": "2022-06-23T15:38:42",
-        "hit": 0
-    },
-    {
-        "alias": "5b36e5b5",
-        "url": "https://three.com/",
-        "expired_time": "2022-06-23T15:38:46",
-        "hit": 0
-    },
-    {
-        "alias": "27205e82",
-        "url": "https://four.com/",
-        "expired_time": "2022-06-23T15:38:51",
-        "hit": 0
-    },
-    {
-        "alias": "8b955b14",
-        "url": "https://five.com/",
-        "expired_time": "2022-06-23T15:38:54",
-        "hit": 0
-    }
-  ]
+const UrlList = ({urlList, 
+  sortBy,
+  onSortByChange,
+  orderBy,
+  onOrderByChange,
+  size,
+  onSizeChange,
+  page,
+  onPageChange,}) => {
 
   return (
     <div>
       <h1>Manage Short URL</h1>
+
+      {/* Table header */}
+      <div className="row mb-2 py-2">
+
+        {/* Page size */}
+        <div className="col-md">
+          <label className="d-flex align-items-center">
+            Show
+            <select className="form-select form-select-sm w-auto mx-2"
+              onChange={(event) => onSizeChange(event.target.value)}
+              value={size}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+            </select>
+            entries
+          </label>
+        </div>
+
+        {/* Search */}
+        <div className="col-md">
+          <label className="d-flex align-items-center justify-content-end">
+            Search:
+            <input type="search" className="form-control form-control-sm w-auto mx-2"></input>
+            Sort By:
+            <select className="form-select form-select-sm w-auto ms-2"
+              onChange={(event) => onSortByChange(event.target.value)}
+              value={sortBy}
+            >
+              <option value="url">URL</option>
+              <option value="hit">Hit count</option>
+              <option value="expiredTime">Expired time</option>
+            </select>
+            <select className="form-select form-select-sm w-auto"
+              onChange={(event) => onOrderByChange(event.target.value)}
+              value={orderBy}
+            >
+              <option selected={orderBy == "asc" ? "selected" : ""} value="asc">ASC</option>
+              <option selected={orderBy == "desc" ? "selected" : ""} value="desc">DESC</option>
+            </select>
+          </label>
+        </div>
+      </div>
       <div className="table-responsive">
         <table className="table table-striped table-sm">
         <thead className="table-light">
@@ -49,14 +70,14 @@ const UrlList = ({urlList}) => {
         </thead>
         <tbody>
           {
-            urlList
+            urlList.content
               .map(urlItem => (
-                <tr>
+                <tr key={urlItem.alias}>
                   <td><a href={"http://localhost:3000/" + urlItem.alias}>{urlItem.alias}</a></td>
                   <td>{urlItem.url}</td>
                   <td>{urlItem.hit}</td>
                   <td>{new Date(urlItem.expired_time).toLocaleString()}</td>
-                  <td><button type="button" class="btn-close" aria-label="Close"></button></td>
+                  <td><button type="button" className="btn-close" aria-label="Close"></button></td>
                 </tr>
               ))
           }          
