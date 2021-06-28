@@ -17,9 +17,9 @@ const UrlList = ({urlList,
   for (let i of [...Array(urlList.totalPages).keys()]) {
     paginationButtons.push(
       <li id={i} className={`page-item ${i===urlList.pageable.pageNumber ? 'active' : ''}`}>
-        <a className="page-link" href="#"
+        <button className="page-link"
           onClick={() => onPageChange(i)}
-        >{i+1}</a>
+        >{i+1}</button>
       </li>
     )
   }
@@ -116,9 +116,17 @@ const UrlList = ({urlList,
         </div>
         <div className="col-md">
           <ul className="pagination pagination-sm justify-content-end">
-            <li className={`page-item ${urlList.first ? 'disabled' : ''}`}><span className="page-link">Previous</span></li>
+            <li className={`page-item ${urlList.first ? 'disabled' : ''}`}>
+              <button className="page-link"
+                onClick={() => onPageChange(urlList.pageable.pageNumber-1)}              
+              >Previous</button>
+            </li>
             {paginationButtons}
-            <li className={`page-item ${urlList.last ? 'disabled' : ''}`}><span className="page-link" href="#">Next</span></li>
+            <li className={`page-item ${urlList.last ? 'disabled' : ''}`}>
+              <button className="page-link"                
+                onClick={() => onPageChange(urlList.pageable.pageNumber+1)}    
+              >Next</button>
+            </li>
           </ul>
         </div>
       </div>
