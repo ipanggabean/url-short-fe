@@ -9,12 +9,13 @@ const UrlInput = ({onCreateShort, expiredTime, onExpiredTimeChange}) => {
   }
 
   return (
-    <div className="input-group mb-3">
+    <div className="input-group mb-3 d-flex align-items-center">
       <i className="bi bi-link-45deg input-group-text bg-primary text-white"></i>
       <input 
         onChange={(event) => setOriginalLink(event.target.value)}
         value={originalLink}
         className="form-control" type="text" name="url_source" id="url_source" placeholder="URL to shorten here"></input>
+      <span className="px-2">Expire by</span>
       <input className="form-control" type="datetime-local" name="url_source" id="url_source" placeholder="Expire time"
         onChange={(event) => onExpiredTimeChange(event.target.value)}
         value={expiredTime}
