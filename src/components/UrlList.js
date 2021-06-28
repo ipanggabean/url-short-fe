@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react"
-
 const UrlList = ({urlList, 
   sortBy,
   onSortByChange,
@@ -10,13 +8,14 @@ const UrlList = ({urlList,
   page,
   onPageChange,
   search,
-  onSearchChange}) => {
+  onSearchChange,
+  onDeleteItem}) => {
 
   const paginationButtons = []
 
   for (let i of [...Array(urlList.totalPages).keys()]) {
     paginationButtons.push(
-      <li id={i} className={`page-item ${i===urlList.pageable.pageNumber ? 'active' : ''}`}>
+      <li key={i} className={`page-item ${i===urlList.pageable.pageNumber ? 'active' : ''}`}>
         <button className="page-link"
           onClick={() => onPageChange(i)}
         >{i+1}</button>
@@ -68,8 +67,8 @@ const UrlList = ({urlList,
               onChange={(event) => onOrderByChange(event.target.value)}
               value={orderBy}
             >
-              <option selected={orderBy == "asc" ? "selected" : ""} value="asc">ASC</option>
-              <option selected={orderBy == "desc" ? "selected" : ""} value="desc">DESC</option>
+              <option value="asc">ASC</option>
+              <option value="desc">DESC</option>
             </select>
           </label>
         </div>
@@ -97,7 +96,11 @@ const UrlList = ({urlList,
                   <td>{urlItem.url}</td>
                   <td>{urlItem.hit}</td>
                   <td>{new Date(urlItem.expired_time).toLocaleString()}</td>
-                  <td className="text-end"><button type="button" className="btn-close" aria-label="Close"></button></td>
+                  <td className="text-end">
+                    <button type="button" className="btn-close" aria-label="Close"
+                      onClick={() => onDeleteItem(urlItem.alias)}
+                    ></button>
+                  </td>
                 </tr>
               ))
             :

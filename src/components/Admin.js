@@ -5,7 +5,6 @@ import { AppContext } from "../libs/contextLibs";
 
 const Admin = () => {
 
-  let [isAuthenticated, setIsAuthenticated] = useState(false)
   let [sessionToken, setSessionToken] = useState("")
   let [urlList, setUrlList] = useState(null)
   let [errorMessage, setErrorMessage] = useState(null)
@@ -20,9 +19,6 @@ const Admin = () => {
     if (!sessionToken) {
       var token = sessionStorage.getItem("jwttoken");
       setSessionToken(token)
-      if (token) {
-        setIsAuthenticated(true)
-      }
     }
   }  
 
@@ -59,6 +55,21 @@ const Admin = () => {
     }
   },[sessionToken, sortBy, orderBy, size, search, page])
 
+  function deleteItem(alias) {
+    fetch(`http://localhost:8080/api/admin/${alias}`, {
+      method: 'DELETE',
+      headers: new Headers({
+        'Authorization': 'Bearer ' + sessionToken
+      })
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(response.status)
+        }
+        fetchData()
+      })
+  }
+
   return (
     <AppContext.Provider value={{ sessionToken, setSessionToken }}>
       { errorMessage &&
@@ -83,6 +94,7 @@ const Admin = () => {
             onPageChange={page => setPage(page)}
             search={search}
             onSearchChange={search => setSearch(search)}
+            onDeleteItem={code => deleteItem(code)}
           />
         ) : (
           <Login />
