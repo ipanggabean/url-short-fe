@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Home from './components/Home';
 import Extract from './components/Extract';
+import Admin from './components/Admin';
 
 function App() {
   
@@ -15,6 +16,7 @@ function App() {
       <div className="App container mt-5">
           <Switch>
             <Route exact path="/" children={<Home />} />
+            <Route exact path="/admin" children={<Admin />} />
             <Route path="/:id" children={<Extract />} />
           </Switch>
       </div>
