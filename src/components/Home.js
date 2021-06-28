@@ -10,13 +10,20 @@ const Home = () => {
   function processShortLink(url) {
     setOriginalLink(url)
 
-    const requestOptions = {
+    fetch('http://localhost:8080/api/short', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url: url })
-    };
-    fetch('http://localhost:8080/api/short', requestOptions)
-      .then(response => response.json())
+    })
+      .then(response => {
+        if (!response.ok) {
+          if (response.status === 400) {
+            throw new Error("URL is not valid")
+          }
+          throw new Error(response.status)
+        }
+        return response.json()
+      })
       .then(data => setShortenLink("http://localhost:3000/" + data.alias))
       .catch(error => {
         setErrorMessage(error.toString())
@@ -41,7 +48,7 @@ const Home = () => {
         
         { errorMessage &&
           <div className="alert alert-danger alert-dismissible fade show" role="alert">
-            Uh ooh! Error: {errorMessage}
+            {errorMessage}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
               onClick={() => setErrorMessage("")}
             ></button>

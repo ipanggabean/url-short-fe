@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { Redirect } from "react-router"
 import { useAppContext } from "../libs/contextLibs";
 
 // const history = createHashHistory()
@@ -8,17 +7,15 @@ const Login = () => {
   let [username, setUsername] = useState("")
   let [password, setPassword] = useState("")
   let [errorMessage, setErrorMessage] = useState("")
-  let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const { sessionToken, setSessionToken } = useAppContext();
 
   function processAuthentication() {
-    const requestOptions = {
+    fetch('http://localhost:8080/api/auth', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username: username, password: password })
-    };
-    fetch('http://localhost:8080/api/auth', requestOptions)
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error(response.status)

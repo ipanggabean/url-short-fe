@@ -1,9 +1,8 @@
 import { useParams } from "react-router";
-import { useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 const Extract = () => {
   let { id } = useParams();
-  let [originalLink, setOriginalLink] = useState("")
 
   const fetchOriginalLink = useCallback(() => {
     fetch(`http://localhost:8080/api/short/${encodeURIComponent(id)}`)
