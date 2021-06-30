@@ -92,7 +92,7 @@ const UrlList = ({urlList,
             urlList.content
               .map(urlItem => (
                 <tr key={urlItem.alias}>
-                  <td><a href={"http://localhost:3000/" + urlItem.alias}>{urlItem.alias}</a></td>
+                  <td><a href={window.location.href + urlItem.alias}>{urlItem.alias}</a></td>
                   <td>{urlItem.url}</td>
                   <td>{urlItem.hit}</td>
                   <td>{new Date(urlItem.expired_time).toLocaleString()}</td>

@@ -25,7 +25,7 @@ const Home = () => {
         }
         return response.json()
       })
-      .then(data => setShortenLink("http://localhost:3000/" + data.alias))
+      .then(data => setShortenLink(window.location.href + data.alias))
       .catch(error => {
         setErrorMessage(error.toString())
         console.error('There was an error!', error);
